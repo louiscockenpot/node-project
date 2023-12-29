@@ -1,14 +1,25 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { Router } from '@angular/router';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'frontend';
+export class AppComponent implements OnInit, OnDestroy{
+  title = 'TD3';
+
+  constructor(private router: Router) {
+    console.log('AppComponent.constructor()')
+  }
+
+  ngOnInit(): void {
+    console.log('AppComponent.ngOnInit()')
+  }
+
+  ngOnDestroy(): void {
+    console.log('AppComponent.ngOnDestroy()')
+  }
+
 }
+
