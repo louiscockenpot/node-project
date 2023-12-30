@@ -1,0 +1,23 @@
+curl -X POST -H "Content-Type: application/json" -d '{
+  "id": "5",
+  "title": "Example Package",
+  "description": "This is an example package.",
+  "category": "Programming",
+  "targetAudience": "Beginner",
+  "difficultyLevel": 10
+}' http://localhost:3000/api/package
+
+curl -X PUT -H "Content-Type: application/json" -d '{
+  "title": "Updated Package",
+  "description": "This is an updated package.",
+  "category": "Programming",
+  "targetAudience": "Intermediate",
+  "difficultyLevel": 8
+}' http://localhost:3000/api/package/12345
+
+
+curl -X POST -H "Content-Type: application/json" -d '{
+  "id": "5",
+  "content": "New fact content",
+  "creationDate": "2023-10-10T00:00:00.000Z"
+}' http://localhost:3000/api/package/1/fact

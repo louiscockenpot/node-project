@@ -1,0 +1,43 @@
+class LearningFact {
+  - id: string
+  - content: string
+  - creationDate: Date
+}
+
+class LearningPackage {
+  - id: string
+  - title: string
+  - description: string
+  - category: string
+  - targetAudience: string
+  - difficultyLevel: int (1 to 20)
+}
+
+class UserPackageLearning {
+  - id: string
+  - startDate: Date
+  - expectedEndDate: Date
+  - minutesPerDayObjective: int
+}
+
+class UserLearningFact {
+  - id: string
+  - timesReviewed: int
+  - confidenceLevel: int
+  - lastReviewedDate: Date
+}
+
+class User {
+  - id: string
+  - username: string
+  - email: string
+}
+
+LearningPackage "1" -- "0..*" LearningFact
+
+UserPackageLearning "0..*" -- "1" LearningPackage
+
+UserLearningFact "0..*" -- "1" LearningFact
+
+User "1" -- "0..*" UserPackageLearning
+User "1" -- "0..*" UserLearningFact
