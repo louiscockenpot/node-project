@@ -5,6 +5,7 @@ import {LessonListPageComponent} from "./lesson-list-page/lesson-list-page.compo
 import {LessonDetailPageComponent} from "./lesson-detail-page/lesson-detail-page.component";
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { StatsComponent } from './stats/stats.component';
 
 const routes: Routes = [
   { path:'lesson-edit-form', component: LessonEditFormComponent },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path:'lesson/:id', component: LessonDetailPageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'stats', component: StatsComponent },
 ];
 
 @NgModule({

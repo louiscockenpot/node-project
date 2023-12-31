@@ -12,7 +12,8 @@ import { LessonDetailPageComponent } from './lesson-detail-page/lesson-detail-pa
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component'; // Import HttpClientModule
+import { RegisterComponent } from './register/register.component';
+import { StatsComponent } from './stats/stats.component'; // Import HttpClientModule
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { RegisterComponent } from './register/register.component'; // Import Htt
     LessonListPageComponent,
     LessonDetailPageComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    StatsComponent
   ],
   imports: [
     BrowserModule,
