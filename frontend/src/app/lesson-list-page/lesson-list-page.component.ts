@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {faHome} from "@fortawesome/free-solid-svg-icons";
 import {UserSettingsService} from "../user-settings.service";
+import { API_URL } from '../config'; // Update the path as per your project structure
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
 
 interface Flashcard {
   title: string;
@@ -17,21 +22,45 @@ interface Flashcard {
 export class LessonListPageComponent implements OnInit{
   flashcards: Flashcard[] = []; // Use the Flashcard interface
 
+  
   ngOnInit(): void {
-    this.flashcards = this.getFlashcards().map((flashcard: Flashcard) => ({
-      ...flashcard,
-      flipped: false
-    }));
+    this.loadFlashcards();
   }
 
-  getFlashcards(): Flashcard[] {
-    // Get the flashcards from localStorage
-    let flashcards = JSON.parse(localStorage.getItem('flashcards') as string) || [];
-    return flashcards;
+  loadFlashcards() {
+    this.getFlashcards().subscribe(
+      (flashcards: Flashcard[]) => {
+        this.flashcards = flashcards.map((flashcard: Flashcard) => ({
+          ...flashcard,
+          flipped: false
+        }));
+      },
+      (error) => {
+        console.error('Error loading flashcards:', error);
+      }
+    );
   }
 
-  constructor(private userSettingsService: UserSettingsService) {
+  getFlashcards(): Observable<Flashcard[]> {
+    return this.http.get<Flashcard[]>(API_URL + "/api/package/1/facts");
+  }
+
+  constructor(
+    private userSettingsService: UserSettingsService,
+    private http: HttpClient // Inject FlashcardService
+  ) {
     console.log("get lastLessonId:", userSettingsService.lastLessonId);
   }
   protected readonly faHome = faHome;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class FlashcardService {
+  constructor(private http: HttpClient) {}
+
+  getFlashcards(): Observable<Flashcard[]> {
+    return this.http.get<Flashcard[]>(API_URL + "/api/package/1/facts");
+  }
 }

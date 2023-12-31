@@ -145,7 +145,7 @@ app.get('/api/facts', async (req, res) => {
 });
 
 // Route to get all LearningFacts for a given package
-app.get('/api/package/:id/fact', async (req, res) => {
+app.get('/api/package/:id/facts', async (req, res) => {
   const { id } = req.params;
   try {
     const learningFacts = await LearningFact.findAll({
