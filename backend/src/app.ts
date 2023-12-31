@@ -32,13 +32,14 @@ app.use(express.json());
 app.use(cors());
 
 
-// Search for Learnigfacts by keywords in question
+// Search for Learnigfacts by keywords in description
+// Description is title + question + answer
 app.get('/api/learning-facts/:searchTerm', async (req, res) => {
   const { searchTerm } = req.params;
   try {
     const learningFacts = await LearningFact.findAll({
       where: {
-        question: {
+        description: {
           [Op.like]: `%${searchTerm}%`,
         },
       },
@@ -249,6 +250,8 @@ app.get('/api/facts', verifyToken, async (req, res) => {
 // Route to create a new LearningFact
 app.post('/api/fact', async (req, res) => {
   const newFactData = req.body;
+  // Description is title + question + answer
+  newFactData.description = newFactData.title + newFactData.question + newFactData.answer;
   try {
     const newFact = await LearningFact.create(newFactData);
     res.status(201).json(newFact);
