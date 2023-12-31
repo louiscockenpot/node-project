@@ -1,22 +1,23 @@
 import express from 'express';
-import { LearningFact, LearningPackage, UserPackageLearning, UserLearningFact, User } from './models'; // Adjust the import path as needed.
+import { LearningFact, LearningPackage, UserPackageLearning, UserLearningFact, User, FactStatistics } from './models'; // Adjust the import path as needed.
 import cors from 'cors';
 import { insertLearningPackages } from './insert-learning-packages';
 import { insertLearningFacts } from './insert-learning-facts';
 import { insertUsers } from './insert-users';
-import { Sequelize } from 'sequelize';
+import { insertFactStatistics } from './insert-fact-statistics';
+import { Sequelize, Op } from 'sequelize';
 import { generateToken } from './jwt';
 import {sequelize} from "./models";
 
 sequelize.sync({ force: true }).then(() => {
   console.log("Drop and re-sync db.");
-  insertLearningPackages().then(
-    () => {
+  insertLearningPackages().then(() => {
       insertLearningFacts().then(() => {
-        insertUsers();
+        insertUsers().then(() => {
+          insertFactStatistics();
         });
-    }
-  );
+      });
+    });
 });
 
 
@@ -29,6 +30,54 @@ app.use(express.json());
 
 // Connect to angular frontend
 app.use(cors());
+
+
+// Search for Learnigfacts by keywords in description
+app.get('/api/learning-facts/:searchTerm', async (req, res) => {
+  const { searchTerm } = req.params;
+  try {
+    const learningFacts = await LearningFact.findAll({
+      where: {
+        description: {
+          [Op.like]: `%${searchTerm}%`,
+        },
+      },
+    });
+
+    res.status(200).json(learningFacts);
+  } catch (error) {
+    console.error('Error fetching learning facts:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// FactStatistics for a user
+app.get('/api/user/:id/fact-statistics', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const factStatistics = await FactStatistics.findAll({
+      where: { userId: id },
+    });
+    res.status(200).json(factStatistics);
+  } catch (error) {
+    console.error('Error fetching FactStatistics:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+// Add a new FactStatistic
+app.post('/api/fact-statistics', async (req, res) => {
+  const newFactStatisticData = req.body;
+  try {
+    const newFactStatistic = await FactStatistics.create(newFactStatisticData);
+    res.status(201).json(newFactStatistic);
+  } catch (error) {
+    console.error('Error creating FactStatistic:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 // Login route
 app.post('/api/login', async (req, res) => {

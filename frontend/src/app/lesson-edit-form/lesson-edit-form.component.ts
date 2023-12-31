@@ -9,6 +9,17 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './lesson-edit-form.component.html',
   styleUrls: ['./lesson-edit-form.component.css']
 })
+
+  onClickSubmit() {
+    //save the flashcard
+    this.saveFlashcard(this.title, this.question, this.answer);
+
+    this.userSettingsService.lastLessonId = 1234;
+    // could execute code (send save request to server)... then navigate
+    this.router.navigate(['lesson-list']).then(res => {
+    })
+  }
+
 export class LessonEditFormComponent implements OnInit, OnDestroy{
   title: string = '';
   question: string = '';
@@ -26,15 +37,7 @@ export class LessonEditFormComponent implements OnInit, OnDestroy{
 
   faHome = faHome;
 
-  onClickSubmit() {
-    //save the flashcard
-    this.saveFlashcard(this.title, this.question, this.answer);
-
-    this.userSettingsService.lastLessonId = 1234;
-    // could execute code (send save request to server)... then navigate
-    this.router.navigate(['lesson-list']).then(res => {
-    })
-  }
+  
 
   saveFlashcard(title: string, question: string, answer: string) {
     /// Create a new flashcard
