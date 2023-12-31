@@ -5,7 +5,7 @@ import { insertLearningPackages } from './insert-learning-packages';
 import { insertLearningFacts } from './insert-learning-facts';
 import { insertUsers } from './insert-users';
 import { insertFactStatistics } from './insert-fact-statistics';
-import { Sequelize, Op } from 'sequelize';
+import { Sequelize, Op, useInflection } from 'sequelize';
 import { generateToken, verifyToken } from './jwt';
 import {sequelize} from "./models";
 
@@ -53,11 +53,11 @@ app.get('/api/learning-facts/:searchTerm', async (req, res) => {
 });
 
 // FactStatistics for a user
-app.post('/api/user/:id/fact-statistics', async (req, res) => {
-  const { id } = req.params;
+app.post('/api/fact-statistics', verifyToken, async (req, res) => {
+  const userId = req.user.id;
   try {
     const factStatistics = await FactStatistics.findAll({
-      where: { userId: id },
+      where: { userId: userId },
     });
     res.status(200).json(factStatistics);
   } catch (error) {
@@ -109,7 +109,6 @@ app.post('/api/register', async (req, res) => {
     // Pckage ID is the same as the user ID
 
     const newPackage = await LearningPackage.create({
-      id: newUser.id,
       title: 'My Learning Package',
       description: 'A learning package for the user',
       category: 'General',
@@ -250,9 +249,9 @@ app.get('/api/facts', verifyToken, async (req, res) => {
 // Route to create a new LearningFact
 app.post('/api/fact', verifyToken, async (req, res) => {
   const newFactData = req.body;
-  const userId = req.user.id; // Assuming that the user ID is present in the decoded JWT
+  const userId = req.user.id; 
   // Description is title + question + answer
-  newFactData.description = newFactData.title + newFactData.question + newFactData.answer;
+  newFactData.description = newFactData.title + " " +  newFactData.question + " " +  newFactData.answer;
   newFactData.learningPackageId = userId; // Set the learningPackageId
   console.log(userId)
   try {
