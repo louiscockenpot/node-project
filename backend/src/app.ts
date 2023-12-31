@@ -254,6 +254,7 @@ app.post('/api/fact', verifyToken, async (req, res) => {
   // Description is title + question + answer
   newFactData.description = newFactData.title + newFactData.question + newFactData.answer;
   newFactData.learningPackageId = userId; // Set the learningPackageId
+  console.log(userId)
   try {
     const newFact = await LearningFact.create(newFactData);
     res.status(201).json(newFact);

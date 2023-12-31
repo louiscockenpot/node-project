@@ -3,6 +3,7 @@ import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { Router } from "@angular/router";
 import { UserSettingsService } from "../user-settings.service";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { API_URL } from '../config';
 
 @Component({
   selector: 'app-lesson-edit-form',
@@ -14,9 +15,6 @@ export class LessonEditFormComponent implements OnInit, OnDestroy {
   question: string = '';
   answer: string = '';
   faHome = faHome;
-
-  // Define the API URL
-  private API_URL: string = 'http://your-api-url-here/api/fact'; // Change this to your actual API URL
 
   constructor(
     private router: Router, 
@@ -58,7 +56,7 @@ export class LessonEditFormComponent implements OnInit, OnDestroy {
     });
 
     // Send the POST request to the server with the flashcard data and the headers
-    this.http.post(this.API_URL, flashcard, { headers }).subscribe({
+    this.http.post(`${API_URL}/api/fact`, flashcard, { headers }).subscribe({
       next: (response) => {
         console.log('Flashcard saved', response);
         // Navigate to lesson-list upon successful save

@@ -54,7 +54,7 @@ export class LessonListPageComponent implements OnInit{
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
   
     // Pass the headers as the third argument to the GET request
-    return this.http.get<Flashcard[]>(API_URL + "facts", { headers });
+    return this.http.get<Flashcard[]>(API_URL + "/api/facts", { headers });
   }
 
   constructor(
