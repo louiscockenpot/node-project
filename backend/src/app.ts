@@ -38,7 +38,7 @@ app.post('/api/login', async (req, res) => {
     const user = await User.findOne({ where: { username, email } });
 
     if (user) {
-      res.status(200).json(generateToken(user));
+      res.status(200).json({ token: generateToken(user) });
     } else {
       res.status(404).json({ error: 'User not found' });
     }
@@ -50,7 +50,7 @@ app.post('/api/login', async (req, res) => {
 });
 
 // Create account route
-app.post('/api/create-account', async (req, res) => {
+app.post('/api/register', async (req, res) => {
   try {
     const { email, username } = req.body;
     const newUser = await User.create({ email, username });
@@ -67,7 +67,7 @@ app.post('/api/create-account', async (req, res) => {
       difficultyLevel: 10,
     });
 
-    res.status(201).json(generateToken(newUser));
+    res.status(201).json({ token: generateToken(newUser) });
   } catch (error) {
     console.error('Error creating user:', error);
     res.status(500).json({ error: 'Internal Server Error' });
