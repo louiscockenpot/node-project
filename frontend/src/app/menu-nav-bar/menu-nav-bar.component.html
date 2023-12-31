@@ -21,25 +21,48 @@
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Study now</a>
+          <a class="nav-link" href="#" routerLink="/lesson-list">Study now</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#" routerLink="/stats">Progress Statistics</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Achievements</a>
-        </li>
+        </li>        
         <li class="nav-item dropdown" ngbDropdown>
           <a class="nav-link dropdown-toggle" href="#" id="helpDropdown" role="button" ngbDropdownToggle>
             Help
           </a>
-          <div class="dropdown-menu" aria-labelledby="helpDropdown" ngbDropdownMenu>
-            <a class="dropdown-item" href="#">Glossary</a>
-            <a class="dropdown-item" href="#">Documentation</a>
-            <a class="dropdown-item" href="#">About</a>
+          <div class="dropdown-menu" aria-labelledby="helpDropdown" ngbDropdownMenu>            
+            <a class="dropdown-item" href="https://github.com/louiscockenpot/node-project">Documentation</a>
+            <a class="dropdown-item" href="#" (click)="open()">About</a>              
           </div>
         </li>
       </ul>
+      <!-- About Modal -->
+      <ng-template #content let-modal>
+        <div class="modal-header">
+          <h5 class="modal-title" id="aboutModalLabel">About KnowNow</h5>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>KnowNow: Learn Easily with Flashcards</p>
+          <p>Created by Louis Cockenpot, Anne-Solene Izard, Louis Gauthier, Clement Florval</p>
+          <p>Welcome to KnowNow, a powerful learning platform designed to make the process of acquiring new knowledge easier and more enjoyable. With KnowNow, you can create interactive flashcards to enhance your learning experience.</p>
+          <h5>Features</h5>
+          <ol>
+            <li>Create Flashcards</li>
+            <p>Easily create flashcards to reinforce your learning. KnowNow provides a user-friendly interface to input information and organize your flashcards efficiently.</p>
+            <li>NodeJS with TypeScript Backend</li>
+            <p>KnowNow's robust backend is built on NodeJS with TypeScript, ensuring scalability, performance, and maintainability. The use of TypeScript adds static typing to the development process, making the codebase more reliable and easier to maintain.</p>
+            <li>Angular & Bootstrap Frontend</li>
+            <p>The frontend of KnowNow is powered by Angular and Bootstrap, providing a responsive and intuitive user interface. Angular's modular architecture and Bootstrap's CSS framework contribute to a seamless user experience across various devices.</p>
+          </ol>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+        </div>
+      </ng-template>
+
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn custom-btn" type="submit">Search</button>
