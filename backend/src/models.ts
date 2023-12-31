@@ -9,10 +9,11 @@ const sequelize = new Sequelize({
 
 // LearningFact Model
 class LearningFact extends Model {
-    id!: string;
-    content!: string;
-    creationDate!: Date;
-    learningPackageId!: string; // Foreign key column
+    id!: number;
+    title!: string;
+    description!: string;
+    answer!: string;
+    learningPackageId!: number; // Foreign key column
   
     static associate(models: any) {
       LearningFact.belongsTo(models.LearningPackage, {
@@ -25,15 +26,20 @@ class LearningFact extends Model {
   LearningFact.init(
     {
       id: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
       },
-      content: {
+      title: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      creationDate: {
-        type: DataTypes.DATE,
+      description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      answer: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
       learningPackageId: {
@@ -191,7 +197,7 @@ UserLearningFact.init(
 
 // User Model
 class User extends Model {
-  id!: string;
+  id!: number;
   username!: string;
   email!: string;
 }
@@ -199,8 +205,9 @@ class User extends Model {
 User.init(
   {
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
     username: {
       type: DataTypes.STRING,

@@ -1,44 +1,77 @@
-import { LearningFact } from './models'; // Import the LearningFact model
+// insertLearningFacts.ts
+import { LearningFact } from './models';
 
 export const insertLearningFacts = async () => {
-    try {
-        // Define the learning facts data
-        const learningFactsData = [
-        {
-            id: "1",
-            content: "TypeScript is a statically typed superset of JavaScript.",
-            creationDate: new Date(),
-            learningPackageId: "1", // Reference to the learning package ID
-        },
-        {
-            id: "2",
-            content: "Node.js allows server-side JavaScript development.",
-            creationDate: new Date(),
-            learningPackageId: "2",
-        },
-        {
-            id: "3",
-            content: "HTML stands for Hypertext Markup Language.",
-            creationDate: new Date(),
-            learningPackageId: "3",
-        },
-        {
-            id: "4",
-            content: "Angular is a popular front-end framework.",
-            creationDate: new Date(),
-            learningPackageId: "4",
-        },
-        ];
+  try {
+    // Define learning facts data
+    const learningFactsData = [
+      // Learning Package 1
+      {
+        title: 'Introduction to TypeScript',
+        description: 'An overview of TypeScript features.',
+        answer: 'TypeScript is a superset of JavaScript.',
+        learningPackageId: 1,
+      },
+      {
+        title: 'TypeScript Data Types',
+        description: 'Exploring various data types in TypeScript.',
+        answer: 'Data types include number, string, boolean, etc.',
+        learningPackageId: 1,
+      },
 
-        for (const factData of learningFactsData) {
-            await LearningFact.create(factData);
-        }
+      // Learning Package 2
+      {
+        title: 'Node.js Basics',
+        description: 'Fundamental concepts of Node.js development.',
+        answer: 'Node.js is a JavaScript runtime built on Chrome\'s V8 engine.',
+        learningPackageId: 2,
+      },
+      {
+        title: 'Building REST APIs with Express',
+        description: 'Creating RESTful APIs using the Express framework.',
+        answer: 'Express simplifies Node.js web application development.',
+        learningPackageId: 2,
+      },
 
-        console.log('Learning packages inserted successfully');
-    } catch (error) {
-        console.error('Error inserting learning packages:', error);
+      // Learning Package 3
+      {
+        title: 'HTML Structure',
+        description: 'Understanding the basic structure of HTML documents.',
+        answer: 'HTML consists of elements like <html>, <head>, and <body>.',
+        learningPackageId: 3,
+      },
+      {
+        title: 'HTML Forms',
+        description: 'Creating forms in HTML for user input.',
+        answer: 'Forms use elements like <form>, <input>, and <button>.',
+        learningPackageId: 3,
+      },
+
+      // Learning Package 4
+      {
+        title: 'Angular Components',
+        description: 'Building components in the Angular framework.',
+        answer: 'Components are the basic building blocks of Angular apps.',
+        learningPackageId: 4,
+      },
+      {
+        title: 'Angular Services',
+        description: 'Working with services to encapsulate functionality.',
+        answer: 'Services in Angular are singletons shared across components.',
+        learningPackageId: 4,
+      },
+    ];
+
+    // Create instances of LearningFact model and insert them into the database
+    for (const factData of learningFactsData) {
+      await LearningFact.create(factData);
     }
+
+    console.log('Learning facts inserted successfully');
+  } catch (error) {
+    console.error('Error inserting learning facts:', error);
+  }
 };
 
-// Call the function to insert learning facts when needed
-insertLearningFacts();
+// Usage: Call insertLearningFacts() in your main script or wherever appropriate
+insertLearningFacts()

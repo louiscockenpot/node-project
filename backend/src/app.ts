@@ -1,21 +1,22 @@
 import express from 'express';
 import { LearningFact, LearningPackage, UserPackageLearning, UserLearningFact, User } from './models'; // Adjust the import path as needed.
 import cors from 'cors';
-
 import { insertLearningPackages } from './insert-learning-packages';
 import { insertLearningFacts } from './insert-learning-facts';
+import { insertUsers } from './insert-users';
 import { Sequelize } from 'sequelize';
-
+import { generateToken } from './jwt';
 import {sequelize} from "./models";
 
 sequelize.sync({ force: true }).then(() => {
   console.log("Drop and re-sync db.");
   insertLearningPackages().then(
     () => {
-      insertLearningFacts();
+      insertLearningFacts().then(() => {
+        insertUsers();
+        });
     }
   );
-  
 });
 
 
@@ -28,6 +29,50 @@ app.use(express.json());
 
 // Connect to angular frontend
 app.use(cors());
+
+// Login route
+app.post('/api/login', async (req, res) => {
+  try {
+
+    const { email, username } = req.body;
+    const user = await User.findOne({ where: { username, email } });
+
+    if (user) {
+      res.status(200).json(generateToken(user));
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+    
+  } catch (error) {
+    console.error('Error authenticating user:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Create account route
+app.post('/api/create-account', async (req, res) => {
+  try {
+    const { email, username } = req.body;
+    const newUser = await User.create({ email, username });
+
+    // Create a new learning package for the user
+    // Pckage ID is the same as the user ID
+
+    const newPackage = await LearningPackage.create({
+      id: newUser.id,
+      title: 'My Learning Package',
+      description: 'A learning package for the user',
+      category: 'General',
+      targetAudience: 'General',
+      difficultyLevel: 10,
+    });
+
+    res.status(201).json(generateToken(newUser));
+  } catch (error) {
+    console.error('Error creating user:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 // Route to get all LearningPackages
 app.get('/api/package', async (req, res) => {
@@ -144,6 +189,19 @@ app.get('/api/facts', async (req, res) => {
   }
 });
 
+// Route to create a new LearningFact
+app.post('/api/fact', async (req, res) => {
+  const newFactData = req.body;
+  try {
+    const newFact = await LearningFact.create(newFactData);
+    res.status(201).json(newFact);
+  } catch (error) {
+    console.error('Error creating LearningFact:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 // Route to get all LearningFacts for a given package
 app.get('/api/package/:id/facts', async (req, res) => {
   const { id } = req.params;
@@ -227,7 +285,7 @@ app.delete('/api/package/:id/fact/:factId', async (req, res) => {
     if (deletedCount > 0) {
       res.status(204).end();
     } else {
-      res.status(404).json({ error: `LearningFact not found for ID: ${factId}` });
+      res.status(404).json({ error: `LearningFact not found for ID: ${factId}`});
     }
   } catch (error) {
     console.error('Error deleting LearningFact:', error);
