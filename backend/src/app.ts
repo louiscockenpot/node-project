@@ -1,22 +1,23 @@
 import express from 'express';
-import { LearningFact, LearningPackage, UserPackageLearning, UserLearningFact, User } from './models'; // Adjust the import path as needed.
+import { LearningFact, LearningPackage, UserPackageLearning, UserLearningFact, User, FactStatistics } from './models'; // Adjust the import path as needed.
 import cors from 'cors';
 import { insertLearningPackages } from './insert-learning-packages';
 import { insertLearningFacts } from './insert-learning-facts';
 import { insertUsers } from './insert-users';
+import { insertFactStatistics } from './insert-fact-statistics';
 import { Sequelize } from 'sequelize';
 import { generateToken } from './jwt';
 import {sequelize} from "./models";
 
 sequelize.sync({ force: true }).then(() => {
   console.log("Drop and re-sync db.");
-  insertLearningPackages().then(
-    () => {
+  insertLearningPackages().then(() => {
       insertLearningFacts().then(() => {
-        insertUsers();
+        insertUsers().then(() => {
+          insertFactStatistics();
         });
-    }
-  );
+      });
+    });
 });
 
 
@@ -29,6 +30,35 @@ app.use(express.json());
 
 // Connect to angular frontend
 app.use(cors());
+
+
+// FactStatistics for a user
+app.get('/api/user/:id/fact-statistics', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const factStatistics = await FactStatistics.findAll({
+      where: { userId: id },
+    });
+    res.status(200).json(factStatistics);
+  } catch (error) {
+    console.error('Error fetching FactStatistics:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+// Add a new FactStatistic
+app.post('/api/fact-statistics', async (req, res) => {
+  const newFactStatisticData = req.body;
+  try {
+    const newFactStatistic = await FactStatistics.create(newFactStatisticData);
+    res.status(201).json(newFactStatistic);
+  } catch (error) {
+    console.error('Error creating FactStatistic:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 // Login route
 app.post('/api/login', async (req, res) => {

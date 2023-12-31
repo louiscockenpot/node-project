@@ -14,6 +14,7 @@ class LearningFact extends Model {
     question!: string;
     description!: string;
     answer!: string;
+    flipped!: number;
     learningPackageId!: number; // Foreign key column
   
     static associate(models: any) {
@@ -46,6 +47,11 @@ class LearningFact extends Model {
       answer: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      flipped: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
       },
       learningPackageId: {
         type: DataTypes.STRING,
@@ -229,4 +235,38 @@ User.init(
   }
 );
 
-export { LearningFact, LearningPackage, UserPackageLearning, UserLearningFact, User, sequelize };
+class FactStatistics extends Model {
+  id!: number;
+  date!: Date;
+  learningFactId!: number;
+  userId!: number;
+}
+
+FactStatistics.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    date: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
+    learningFactId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    }
+  },
+  {
+    sequelize,
+    modelName: 'FactStatistics',
+  }
+);
+
+export { LearningFact, LearningPackage, UserPackageLearning, UserLearningFact, User, FactStatistics, sequelize };

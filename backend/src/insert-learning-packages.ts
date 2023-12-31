@@ -49,3 +49,5 @@ export const insertLearningPackages = async () => {
     console.error('Error inserting learning packages:', error);
   }
 };
+
+insertLearningPackages();
