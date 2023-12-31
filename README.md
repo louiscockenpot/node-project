@@ -1,5 +1,7 @@
 # KnowNow: Learn Easily with Flashcards
 
+# Created by Louis Cockenpot, Anne-Solene Izard, Louis Gauthier, Clement Florval
+
 Welcome to KnowNow, a powerful learning platform designed to make the process of acquiring new knowledge easier and more enjoyable. With KnowNow, you can create interactive flashcards to enhance your learning experience.
 
 ## Features
