@@ -32,13 +32,13 @@ app.use(express.json());
 app.use(cors());
 
 
-// Search for Learnigfacts by keywords in description
+// Search for Learnigfacts by keywords in question
 app.get('/api/learning-facts/:searchTerm', async (req, res) => {
   const { searchTerm } = req.params;
   try {
     const learningFacts = await LearningFact.findAll({
       where: {
-        description: {
+        question: {
           [Op.like]: `%${searchTerm}%`,
         },
       },
@@ -227,7 +227,6 @@ app.get('/api/liveness', (req, res) => {
 
 
 // Routes for LearningFact
-
 app.get('/api/facts', verifyToken, async (req, res) => {
   try {
     // Assuming that the user ID is present in the decoded JWT
