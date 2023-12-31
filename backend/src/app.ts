@@ -53,7 +53,7 @@ app.get('/api/learning-facts/:searchTerm', async (req, res) => {
 });
 
 // FactStatistics for a user
-app.post('/api/fact-statistics', verifyToken, async (req, res) => {
+app.get('/api/fact-statistics', verifyToken, async (req, res) => {
   const userId = req.user.id;
   try {
     const factStatistics = await FactStatistics.findAll({
