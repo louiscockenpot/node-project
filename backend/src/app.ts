@@ -8,11 +8,15 @@ import { Sequelize } from 'sequelize';
 
 import {sequelize} from "./models";
 
-// sequelize.sync({ force: true }).then(() => {
-//   console.log("Drop and re-sync db.");
-//   insertLearningPackages();
-//   insertLearningFacts();
-// });
+sequelize.sync({ force: true }).then(() => {
+  console.log("Drop and re-sync db.");
+  insertLearningPackages().then(
+    () => {
+      insertLearningFacts();
+    }
+  );
+  
+});
 
 
 const app = express();
