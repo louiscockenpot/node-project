@@ -57,4 +57,3 @@ Make sure you have the following software installed on your machine:
 4. Open your web browser and go to `http://localhost:4200` to view the Angular application.
 
 That's it! You have successfully set up and built the Node.js backend with Angular frontend project.
-You can access the website on http://localhost:4200
