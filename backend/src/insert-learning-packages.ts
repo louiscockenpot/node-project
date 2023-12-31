@@ -6,7 +6,6 @@ export const insertLearningPackages = async () => {
     // Define the learning packages data
     const learningPackagesData = [
       {
-        id: "1",
         title: "Learn TypeScript",
         description: "A course on TypeScript programming.",
         category: "Programming",
@@ -14,7 +13,6 @@ export const insertLearningPackages = async () => {
         difficultyLevel: 15,
       },
       {
-        id: "2",
         title: "Learn Node.js",
         description: "A comprehensive guide to Node.js development.",
         category: "Web Development",
@@ -22,7 +20,6 @@ export const insertLearningPackages = async () => {
         difficultyLevel: 16,
       },
       {
-        id: "3",
         title: "Learn HTML",
         description: "An introductory course on HTML.",
         category: "Web Development",
@@ -30,7 +27,6 @@ export const insertLearningPackages = async () => {
         difficultyLevel: 8,
       },
       {
-        id: "4",
         title: "Learn Angular",
         description: "A hands-on tutorial for Angular framework.",
         category: "Web Development",

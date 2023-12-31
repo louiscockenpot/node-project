@@ -6,7 +6,7 @@ import { insertLearningFacts } from './insert-learning-facts';
 import { insertUsers } from './insert-users';
 import { insertFactStatistics } from './insert-fact-statistics';
 import { Sequelize, Op } from 'sequelize';
-import { generateToken } from './jwt';
+import { generateToken, verifyToken } from './jwt';
 import {sequelize} from "./models";
 
 sequelize.sync({ force: true }).then(() => {
@@ -52,7 +52,7 @@ app.get('/api/learning-facts/:searchTerm', async (req, res) => {
 });
 
 // FactStatistics for a user
-app.get('/api/user/:id/fact-statistics', async (req, res) => {
+app.post('/api/user/:id/fact-statistics', async (req, res) => {
   const { id } = req.params;
   try {
     const factStatistics = await FactStatistics.findAll({
@@ -228,12 +228,21 @@ app.get('/api/liveness', (req, res) => {
 
 // Routes for LearningFact
 
-app.get('/api/facts', async (req, res) => {
+app.get('/api/facts', verifyToken, async (req, res) => {
   try {
-    const allLearningFacts = await LearningFact.findAll();
-    res.status(200).json(allLearningFacts);
+    // Assuming that the user ID is present in the decoded JWT
+    const userId = req.user.id;
+
+    // Fetch learning facts linked to the user ID
+    const userLearningFacts = await LearningFact.findAll({
+      where: {
+        learningPackageId: userId, // Assuming that the user ID is the same as the package ID is correct for our implementation
+      },
+    });
+
+    res.status(200).json(userLearningFacts);
   } catch (error) {
-    console.error('Error fetching LearningFacts:', error);
+    console.error('Error fetching user LearningFacts:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });

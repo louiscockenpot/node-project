@@ -14,7 +14,6 @@ class LearningFact extends Model {
     question!: string;
     description!: string;
     answer!: string;
-    flipped!: number;
     learningPackageId!: number; // Foreign key column
   
     static associate(models: any) {
@@ -48,13 +47,8 @@ class LearningFact extends Model {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      flipped: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0,
-      },
       learningPackageId: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
         references: {
           model: 'LearningPackages',
@@ -70,7 +64,7 @@ class LearningFact extends Model {
 
 // LearningPackage Model
 class LearningPackage extends Model {
-  id!: string;
+  id!: number;
   title!: string;
   description!: string;
   category!: string;
@@ -81,8 +75,9 @@ class LearningPackage extends Model {
 LearningPackage.init(
   {
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
     title: {
       type: DataTypes.STRING,

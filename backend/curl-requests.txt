@@ -40,3 +40,12 @@ curl -X POST \
   }'
 
 
+curl -X POST http://localhost:3000/api/login -d '{"username": "john_doe", "email": "john@example.com"}' -H 'Content-Type: application/json'
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJqb2huX2RvZSIsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSIsImlhdCI6MTcwNDA1NjUwMSwiZXhwIjoxNzA0MDYwMTAxfQ.CVbxl4WgfrVldAY0ALRnkcc6zX5Y7i3WicHxlRmdDEI
+
+curl -X GET http://localhost:3000/api/facts -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJqb2huX2RvZSIsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSIsImlhdCI6MTcwNDA1NjUwMSwiZXhwIjoxNzA0MDYwMTAxfQ.CVbxl4WgfrVldAY0ALRnkcc6zX5Y7i3WicHxlRmdDEI'
+
+
+
+
