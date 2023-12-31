@@ -11,6 +11,7 @@ const sequelize = new Sequelize({
 class LearningFact extends Model {
     id!: number;
     title!: string;
+    question!: string;
     description!: string;
     answer!: string;
     learningPackageId!: number; // Foreign key column
@@ -31,6 +32,10 @@ class LearningFact extends Model {
         primaryKey: true,
       },
       title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      question: {
         type: DataTypes.STRING,
         allowNull: false,
       },
