@@ -144,6 +144,19 @@ app.get('/api/facts', async (req, res) => {
   }
 });
 
+
+app.post('/api/fact', async (req, res) => {
+  const newFactData = req.body; 
+  try {
+    const newFact = await LearningFact.create(newFactData);
+    res.status(201).json(newFact);
+  } catch (error) {
+    console.error('Error creating LearningFact:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 // Route to get all LearningFacts for a given package
 app.get('/api/package/:id/fact', async (req, res) => {
   const { id } = req.params;
