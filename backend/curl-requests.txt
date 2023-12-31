@@ -24,9 +24,19 @@ curl -X POST -H "Content-Type: application/json" -d '{
 
 
 curl -X POST -H 'Content-Type: application/json' -d '{
-    "id": "1",
+    "id": "10",
     "content": "This is a new fact.",
     "creationDate": "2023-01-01T12:00:00Z",
     "learningPackageId": 1
   }' http://localhost:3000/api/fact
+
+
+curl -X POST \
+  http://localhost:3000/api/create-account \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "email": "example@example.com",
+    "username": "example_user"
+  }'
+
 

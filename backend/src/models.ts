@@ -191,7 +191,7 @@ UserLearningFact.init(
 
 // User Model
 class User extends Model {
-  id!: string;
+  id!: number;
   username!: string;
   email!: string;
 }
@@ -199,8 +199,9 @@ class User extends Model {
 User.init(
   {
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
     username: {
       type: DataTypes.STRING,
