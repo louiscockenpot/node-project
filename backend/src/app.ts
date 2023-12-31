@@ -248,10 +248,12 @@ app.get('/api/facts', verifyToken, async (req, res) => {
 });
 
 // Route to create a new LearningFact
-app.post('/api/fact', async (req, res) => {
+app.post('/api/fact', verifyToken, async (req, res) => {
   const newFactData = req.body;
+  const userId = req.user.id; // Assuming that the user ID is present in the decoded JWT
   // Description is title + question + answer
   newFactData.description = newFactData.title + newFactData.question + newFactData.answer;
+  newFactData.learningPackageId = userId; // Set the learningPackageId
   try {
     const newFact = await LearningFact.create(newFactData);
     res.status(201).json(newFact);
