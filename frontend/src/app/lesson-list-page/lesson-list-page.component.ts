@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {faHome} from "@fortawesome/free-solid-svg-icons";
 import {UserSettingsService} from "../user-settings.service";
 import { API_URL } from '../config'; // Update the path as per your project structure
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -42,7 +42,19 @@ export class LessonListPageComponent implements OnInit{
   }
 
   getFlashcards(): Observable<Flashcard[]> {
-    return this.http.get<Flashcard[]>(API_URL + "/api/package/1/facts");
+    // Retrieve the JWT token from local storage
+    const token = localStorage.getItem('token');
+  
+    // Check if the token is present
+    if (!token) {
+      throw new Error('Authentication token not found in local storage');
+    }
+  
+    // Create HTTP headers with the Authorization token
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  
+    // Pass the headers as the third argument to the GET request
+    return this.http.get<Flashcard[]>(API_URL + "facts", { headers });
   }
 
   constructor(
