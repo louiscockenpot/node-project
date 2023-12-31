@@ -10,7 +10,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LessonListPageComponent } from './lesson-list-page/lesson-list-page.component';
 import { LessonDetailPageComponent } from './lesson-detail-page/lesson-detail-page.component';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
+import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component'; // Import HttpClientModule
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { HttpClientModule } from '@angular/common/http'; // Import HttpClientMod
     LessonSearchPageComponent,
     MenuNavBarComponent,
     LessonListPageComponent,
-    LessonDetailPageComponent
+    LessonDetailPageComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

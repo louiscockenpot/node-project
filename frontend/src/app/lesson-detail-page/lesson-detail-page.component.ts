@@ -6,7 +6,8 @@ import {ActivatedRoute, Router} from "@angular/router";
   templateUrl: './lesson-detail-page.component.html',
   styleUrls: ['./lesson-detail-page.component.css']
 })
-export class LessonDetailPageComponent {
+
+  export class LessonDetailPageComponent {
   readonly initialId: number;
   id: number | undefined;
   constructor(activatedRoute: ActivatedRoute, private router: Router) {
@@ -17,6 +18,7 @@ export class LessonDetailPageComponent {
       console.log('id:', this.id);
     });
   }
+
   onClickGoNextPage(){
     const nextId = (this.id)? this.id + 1 : 1;
     this.router.navigate(['/lesson', nextId]);
